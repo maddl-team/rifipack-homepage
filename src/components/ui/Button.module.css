@@ -1,0 +1,21 @@
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: var(--tap-min); padding: 16px 28px;
+  border-radius: var(--radius-pill); border: 1.5px solid transparent;
+  font: 700 16px/16px var(--f-sans); text-decoration: none; white-space: nowrap;
+  background: none; color: var(--text); cursor: pointer;
+  transition: transform var(--d-base) var(--ease-out), box-shadow var(--d-base) var(--ease-out),
+    background-color var(--d-quick), border-color var(--d-quick), color var(--d-quick);
+}
+.sm { min-height: 40px; padding: 11px 20px; font-size: 14px; line-height: 14px; }
+.primary { background: var(--accent); color: var(--on-accent); }
+.secondary { border-color: var(--border-control); font-weight: 600; }
+.outline { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+@media (hover: hover) {
+  .primary:hover { background: var(--accent-hover); transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+  .secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
+  .outline:hover { background: var(--accent); color: var(--on-accent); transform: translateY(-3px); }
+}
+.primary:active { background: var(--accent-pressed); transform: none; box-shadow: none; }
+@media (max-width: 520px) { .sm { padding: 10px 16px; } }

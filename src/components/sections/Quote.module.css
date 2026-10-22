@@ -1,0 +1,51 @@
+.sec { background: var(--bg); }
+.in { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+@media (max-width: 900px) { .in { grid-template-columns: 1fr; gap: var(--space-7); } }
+.eyebrow { color: var(--text-muted); margin-bottom: var(--space-4); }
+.intro { color: var(--text-muted); max-width: 40ch; margin-top: 20px; }
+.phones { display: grid; gap: 6px; margin-top: 28px; font-size: 19px; }
+.phones a { font-weight: 600; text-underline-offset: 4px; padding: 6px 0; display: inline-block; }
+.form { background: var(--surface); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-float); max-width: 640px; }
+@media (max-width: 520px) { .form { padding: var(--space-5) 20px; } }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 28px; }
+.steps li { display: grid; gap: 8px; color: var(--text-muted); white-space: nowrap; font-size: 11px; transition: color var(--d-base); }
+.steps li::before { content: ""; height: 4px; border-radius: 2px; background: var(--line); }
+.steps .on, .steps .done { color: var(--accent); }
+.steps .on::before, .steps .done::before { background: var(--accent); }
+.pane h3 { font-size: 28px; line-height: 32px; letter-spacing: -0.015em; margin-bottom: 20px; outline-offset: 6px; }
+.in2 { animation: paneIn var(--d-base) var(--ease-out) both; }
+.out { animation: paneOut var(--d-quick) ease-in both; }
+@keyframes paneIn { from { opacity: 0; transform: translateX(calc(24px * var(--dir, 1))); } to { opacity: 1; transform: none; } }
+@keyframes paneOut { to { opacity: 0; transform: translateX(calc(-24px * var(--dir, 1))); } }
+.pane[data-dir="1"] { --dir: 1; }
+.pane[data-dir="-1"] { --dir: -1; }
+.fields { display: grid; gap: 22px; }
+.fld { display: grid; gap: 6px; align-content: start; }
+.fld label { font: 600 14px/18px var(--f-sans); }
+.fld label small { font-weight: 400; color: var(--text-muted); }
+.input { width: 100%; min-height: var(--tap-min); padding: 13px 16px; background: var(--surface); color: var(--text); border: 1.5px solid var(--border-control); border-radius: var(--radius-sm); font: 400 16px/24px var(--f-sans); transition: border-color var(--d-quick); }
+textarea.input { min-height: 112px; resize: vertical; }
+.input:hover { border-color: var(--text-muted); }
+.input:focus { border-color: var(--accent); }
+.input[aria-invalid="true"] { border-color: var(--error); }
+.err { display: flex; gap: 8px; align-items: flex-start; color: var(--error); font: 500 14px/20px var(--f-sans); }
+.err svg { width: 16px; height: 16px; flex: none; margin-top: 2px; }
+.chk { display: flex !important; gap: 12px; align-items: flex-start; color: var(--text-muted); font: 400 14px/21px var(--f-sans) !important; }
+.chk input { width: 24px; height: 24px; margin: 0; accent-color: var(--accent); flex: none; }
+.pick { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; color: var(--text-muted); }
+.pick b { color: var(--text); }
+.pick button { background: none; border: 0; color: var(--accent); font: 600 14px var(--f-sans); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; padding: 12px 8px; min-height: 40px; }
+.trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 28px; }
+.next, .back { min-height: var(--tap-min); border-radius: var(--radius-pill); font: 700 16px/16px var(--f-sans); cursor: pointer; }
+.next { padding: 16px 28px; border: 1.5px solid transparent; background: var(--accent); color: var(--on-accent); transition: transform var(--d-base) var(--ease-out), background-color var(--d-quick), box-shadow var(--d-base) var(--ease-out); }
+.next:disabled { background: var(--disabled); cursor: progress; }
+@media (hover: hover) { .next:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-3px); box-shadow: var(--shadow-lift); } }
+.back { padding: 12px 8px; background: none; border: 0; color: var(--text); text-decoration: underline; text-underline-offset: 4px; font-weight: 600; }
+.ok { display: grid; gap: 12px; justify-items: start; }
+.ok svg { width: 64px; height: 64px; }
+.ok circle, .ok path { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 600ms var(--ease-out) forwards; }
+.ok path { animation-duration: 500ms; animation-delay: 350ms; }
+.ok a { text-underline-offset: 4px; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .ok circle, .ok path { stroke-dashoffset: 0; } }

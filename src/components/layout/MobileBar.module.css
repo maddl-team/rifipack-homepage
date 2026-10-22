@@ -1,0 +1,11 @@
+.bar { display: none; }
+@media (max-width: 767px) {
+  .bar {
+    display: flex; position: fixed; inset: auto 0 0; z-index: var(--z-bar); gap: 8px;
+    padding: 8px max(16px, var(--sar)) calc(8px + var(--sab)) max(16px, var(--sal));
+    background: var(--bg-deep); border-top: 1px solid var(--line);
+    transform: translateY(110%); transition: transform var(--d-base) var(--ease-out);
+  }
+  .show { transform: none; }
+  .bar a { flex: 1; padding: 0 12px; min-height: var(--tap-min); font-size: 15px; }
+}
