@@ -1,6 +1,6 @@
-.sec { padding-bottom: var(--space-9); }
+.sec { padding-block: var(--space-9); }
 .box { display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); flex-wrap: wrap; padding: var(--space-6) var(--space-7); background: var(--surface-raised); border-radius: var(--radius-xl); }
 .eyebrow { color: var(--accent); }
 .h { font: 800 clamp(24px, 2.6vw, 32px) / 1.1 var(--f-display); letter-spacing: -0.015em; text-transform: uppercase; margin-top: 6px; }
 .text { margin-top: 8px; color: var(--text-muted); }
-@media (max-width: 767px) { .sec { padding-bottom: var(--space-8); } .box { padding: var(--space-5); } .box a { width: 100%; } }
+@media (max-width: 767px) { .sec { padding-block: var(--space-8); } .box { padding: var(--space-5); } .box a { width: 100%; } }
