@@ -28,3 +28,28 @@ npm run typecheck
 npm run qa:axe          # con il sito avviato su :3000 (modifica l'URL nello script se serve)
 npm run qa:lighthouse
 ```
+
+## Aggiungere una pagina prodotto
+
+Le pagine prodotto usano un unico template (`src/components/product/ProductPageView.tsx`) pilotato dai contenuti.
+La prima, **shopper-in-carta-lusso**, è il modello di riferimento.
+
+1. Copia `src/content/products/shopper-lusso.ts` in `src/content/products/<nome>.ts` e cambia `slug`
+   (identico allo slug WordPress, così gli URL non cambiano), testi SEO, hero, sezioni, varianti/quantità/misure del form.
+2. Metti le foto in `public/img/prodotti/<nome>/` (webp) e, se vuoi la galleria, crea `<nome>.gallery.ts`
+   (elenco `{src, alt, w, h}`; l'alt descrive il prodotto, non il nome del file).
+3. Registra la pagina in `src/content/products/index.ts` (array `productPages`).
+   Il route `app/[slug]/page.tsx`, la sitemap, i breadcrumb, il JSON-LD e i link dalla home
+   (`productHref`) la raccolgono da soli. Finché una pagina non è registrata, i link puntano
+   ancora a `https://www.rifipack.it/<slug>/`.
+4. `npm run build` e controlla `qa:axe` / `qa:lighthouse`.
+
+`trailingSlash: true` è attivo di proposito: mantiene gli URL identici al sito WordPress attuale.
+Il form preventivo (`/api/quote/`) è ancora di prova: valida i dati ma non invia nulla finché non si collega Resend.
+
+### Modulo preventivo di pagina prodotto
+
+Tre passi a tutta larghezza: **Chi sei** (azienda, referente, città, telefono, email), **Prodotto** (tessere-immagine,
+quantità, misure), **Invio** (messaggio, logo opzionale, consenso).
+Le tessere vengono da `form.variants.options` (`{ label, image }`) nel file contenuti della pagina:
+immagini webp 400×500 su fondo bianco in `public/img/prodotti/<nome>/varianti/`.

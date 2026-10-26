@@ -9,6 +9,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  /* Gli URL attuali di rifipack.it finiscono con "/": li manteniamo identici per non perdere posizionamento. */
+  trailingSlash: true,
   images: { formats: ["image/avif", "image/webp"] },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];

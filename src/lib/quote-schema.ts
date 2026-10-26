@@ -1,6 +1,6 @@
 /**
  * Validazione del modulo preventivo. Stesse regole nel browser e sul server.
- * Campi: quelli del modulo attuale di rifipack.it.
+ * Campi: quelli dei moduli attuali di rifipack.it (home e pagine prodotto).
  */
 export type QuoteInput = {
   azienda: string;
@@ -12,8 +12,15 @@ export type QuoteInput = {
   consenso: boolean;
   /** Campo trappola contro lo spam: deve restare vuoto. */
   website?: string;
-  /** Famiglia di prodotto scelta dalle schede (facoltativa). */
+  /** Famiglia o prodotto scelto dalle schede (facoltativo). */
   prodotto?: string;
+  /** Solo moduli di pagina prodotto: slug della pagina (attiva i campi sotto). */
+  pagina?: string;
+  variante?: string;
+  quantita?: string;
+  misure?: string;
+  /** Nome del file logo (il file viaggia a parte). Serve solo per mostrare gli errori. */
+  logo?: string;
 };
 
 export type QuoteErrors = Partial<Record<keyof QuoteInput, string>>;
@@ -21,11 +28,32 @@ export type QuoteErrors = Partial<Record<keyof QuoteInput, string>>;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE = /^[+\d][\d\s().\-/]{5,}$/;
 
+/** Passi del modulo della home. */
 export const QUOTE_STEPS: (keyof QuoteInput)[][] = [
   ["azienda", "referente", "citta"],
   ["telefono", "email"],
   ["messaggio", "consenso"],
 ];
+
+/** Passi del modulo di pagina prodotto: dati di contatto, scelta del prodotto, dettagli e invio. */
+export const PRODUCT_QUOTE_STEPS: (keyof QuoteInput)[][] = [
+  ["azienda", "referente", "citta", "telefono", "email"],
+  ["variante", "quantita", "misure"],
+  ["logo", "messaggio", "consenso"],
+];
+
+export const LOGO_MAX_BYTES = 8 * 1024 * 1024;
+export const LOGO_EXT = ["png", "jpg", "jpeg", "svg", "pdf", "ai", "eps", "webp"] as const;
+export const LOGO_ACCEPT = LOGO_EXT.map((e) => `.${e}`).join(",");
+
+/** Controlla il file logo (nome e dimensione). Restituisce il messaggio d'errore o null. */
+export function validateLogo(file: { name: string; size: number } | null | undefined): string | null {
+  if (!file || !file.name) return null;
+  const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
+  if (!(LOGO_EXT as readonly string[]).includes(ext)) return "Formato non supportato: usa PNG, JPG, SVG, PDF, AI o EPS.";
+  if (file.size > LOGO_MAX_BYTES) return "Il file è troppo grande: massimo 8 MB.";
+  return null;
+}
 
 export function validateQuote(v: Partial<QuoteInput>, fields?: (keyof QuoteInput)[]): QuoteErrors {
   const e: QuoteErrors = {};
@@ -38,6 +66,11 @@ export function validateQuote(v: Partial<QuoteInput>, fields?: (keyof QuoteInput
   check("telefono", !!v.telefono && PHONE.test(v.telefono.trim()), "Inserisci un numero di telefono.");
   check("email", !!v.email && EMAIL.test(v.email.trim()), "Inserisci un indirizzo email completo.");
   check("consenso", v.consenso === true, "Il consenso è necessario per inviare la richiesta.");
+  if (v.pagina) {
+    check("variante", !!v.variante?.trim(), "Scegli il prodotto che ti interessa.");
+    check("quantita", !!v.quantita?.trim(), "Scegli la quantità.");
+    check("misure", !!v.misure?.trim(), "Scegli le misure.");
+  }
   if (v.messaggio && v.messaggio.length > 2000) check("messaggio", false, "Il messaggio è troppo lungo.");
   return e;
 }

@@ -1,0 +1,59 @@
+/* Geometria sul contenitore del design system (1440), come la hero della home. */
+.hero {
+  --W: min(100cqw, var(--container-max));
+  --off: calc((100cqw - var(--W)) / 2);
+  --hpad: calc(var(--off) + var(--gut));
+  --split: calc(var(--off) + var(--W) * 0.56);
+  container-type: inline-size;
+  position: relative; overflow: hidden; background: var(--bg);
+  min-height: clamp(640px, 92svh, 900px);
+}
+/* Il padding sta qui e non sulla hero: cqw misura l'area interna del contenitore, che deve restare a tutta larghezza. */
+.copy {
+  width: calc(var(--split) - var(--hpad) - var(--space-6)); min-width: 0; position: relative; z-index: 3;
+  margin: calc(var(--header-h) + var(--space-4)) 0 var(--space-8) var(--hpad);
+}
+.eyebrow { color: var(--accent); margin-top: var(--space-6); }
+.h1 {
+  margin-top: var(--space-3); font-weight: 900; line-height: 0.92; letter-spacing: -0.035em;
+  font-size: max(34px, min(76px, calc(var(--W) * 0.05)));
+  animation: up var(--d-hero) var(--ease-out) both;
+}
+.lead { margin-top: var(--space-5); max-width: 54ch; font-size: 18px; line-height: 1.6; color: var(--text-muted); animation: fade 500ms var(--ease-out) 120ms both; }
+.usps { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4) var(--space-5); margin-top: var(--space-6); animation: fade 500ms var(--ease-out) 200ms both; }
+.usps li { display: grid; grid-template-columns: 24px 1fr; gap: 12px; font-size: 15px; line-height: 22px; color: var(--text-muted); }
+.usps svg { width: 24px; height: 24px; color: var(--accent); margin-top: -1px; }
+.usps b { color: var(--text); font-weight: 600; }
+.acts { display: flex; flex-wrap: wrap; gap: 14px; margin-top: var(--space-6); animation: fade 500ms var(--ease-out) 280ms both; }
+
+/* Pannello kraft: sotto l'header, esce a destra e in basso */
+.stage {
+  position: absolute; z-index: 2; margin: 0; overflow: hidden;
+  top: var(--header-h); right: 0; bottom: 0; left: var(--split);
+  background: var(--kraft); border-top-left-radius: var(--radius-xl); box-shadow: var(--shadow-ground);
+}
+/* Le foto prodotto hanno fondo bianco: "multiply" lo fonde con il kraft */
+.img {
+  position: absolute; inset: 6% 6% 13%; width: 88%; height: 81%; object-fit: contain; mix-blend-mode: multiply;
+  animation: rise 1100ms var(--ease-out) 450ms both;
+}
+.cap { position: absolute; left: var(--space-5); bottom: var(--space-4); right: var(--space-5); color: var(--kraft-muted); }
+
+.flap { position: absolute; top: 0; bottom: 0; width: 50.5%; background: var(--brand); z-index: 2; }
+.flapL { left: 0; animation: openL var(--d-hero) var(--ease-inout) 150ms both; }
+.flapR { right: 0; animation: openR var(--d-hero) var(--ease-inout) 150ms both; }
+
+@keyframes up { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes fade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { transform: translateY(8%); } to { transform: none; } }
+@keyframes openL { from { transform: none; } to { transform: translateX(-101%); } }
+@keyframes openR { from { transform: none; } to { transform: translateX(101%); } }
+
+@media (max-width: 900px) {
+  .hero { --hpad: var(--gut); min-height: 0; display: flex; flex-direction: column; }
+  .copy { width: auto; margin: calc(var(--header-h) - 24px) var(--gut) 0 var(--gut); }
+  .usps { grid-template-columns: 1fr; }
+  .acts > a { flex: 1 1 100%; }
+  .stage { position: relative; inset: auto; height: min(104vw, 620px); margin: var(--space-7) 0 0 var(--space-4); }
+}
+@media (prefers-reduced-motion: reduce) { .flap { display: none; } }

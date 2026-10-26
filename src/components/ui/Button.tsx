@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import s from "./Button.module.css";
 
 type Props = {
@@ -15,15 +16,19 @@ type Props = {
 /** Pulsante-link. Un solo pulsante "primary" per vista (regola del design system). */
 export function Button({ href, variant = "primary", size = "md", external, arrow, children, className, onClick }: Props) {
   const cls = [s.btn, s[variant], size === "sm" ? s.sm : "", className ?? ""].join(" ").trim();
-  return (
-    <a
-      className={cls}
-      href={href}
-      onClick={onClick}
-      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-    >
+  const inner = (
+    <>
       {children}
       {arrow ? <span aria-hidden="true">{arrow}</span> : null}
+    </>
+  );
+  /* Percorsi interni (es. "/shopper-in-carta-lusso/") passano da next/link: navigazione veloce e prefetch. */
+  if (!external && href.startsWith("/")) {
+    return <Link className={cls} href={href} onClick={onClick}>{inner}</Link>;
+  }
+  return (
+    <a className={cls} href={href} onClick={onClick} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+      {inner}
     </a>
   );
 }

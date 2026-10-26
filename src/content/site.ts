@@ -25,7 +25,7 @@ export const company = {
 } as const;
 
 export const nav = [
-  { label: "Prodotti", href: "#prodotti" },
+  { label: "Prodotti", href: "/#prodotti" },
   { label: "Portfolio", href: "https://www.rifipack.it/portfolio/", external: true },
   { label: "Chi siamo", href: "https://www.rifipack.it/chi-siamo/", external: true },
   { label: "Contatti", href: "#preventivo" },
@@ -66,14 +66,14 @@ export const scene = {
       n: "01",
       name: "Apri",
       text: "Ogni confezione racconta il tuo marchio prima ancora di essere aperta.",
-      image: "/img/shopper-studio.jpg",
+      image: "/img/shopper.jpg",
       alt: "Shopper di lusso personalizzata",
     },
     {
       n: "02",
       name: "Scopri",
       text: "Carta, kraft, tessuto, cartone: scegli materiale e formato con chi li produce.",
-      image: "/img/kraft-studio.jpg",
+      image: "/img/kraft.jpg",
       alt: "Scatola kraft aperta con stampa personalizzata",
     },
     {
@@ -115,7 +115,7 @@ export const products = {
       id: "shopping-bag",
       title: "Shopping bag",
       blurb: "Buste di carta, shopper di lusso e borse in tessuto con il tuo marchio.",
-      image: "/img/shopper-studio.jpg",
+      image: "/img/shopper.jpg",
       imageAlt: "Shopper di lusso personalizzata",
       products: [
         { label: "Shopper di lusso personalizzate", href: P("shopper-in-carta-lusso") },
@@ -128,7 +128,7 @@ export const products = {
       id: "packaging-personalizzato",
       title: "Packaging personalizzato",
       blurb: "Soluzioni su misura per food & beverage, regalo e vendita.",
-      image: "/img/kraft-studio.jpg",
+      image: "/img/kraft.jpg",
       imageAlt: "Scatola kraft con stampa personalizzata",
       products: [
         { label: "Packaging alimentare", href: P("packaging-alimentare-personalizzato") },
@@ -141,7 +141,7 @@ export const products = {
       id: "spedizioni",
       title: "Prodotti per spedizioni",
       blurb: "Scatole per e-commerce e nastro adesivo personalizzati.",
-      image: "/img/spedizioni-studio.jpg",
+      image: "/img/spedizioni.jpg",
       imageAlt: "Scatole per e-commerce personalizzate, bianca e avana",
       products: [
         { label: "Scatole per e-commerce", href: P("buste-e-scatole-e-commerce-personalizzate") },
@@ -152,7 +152,7 @@ export const products = {
       id: "etichette",
       title: "Etichette e adesivi",
       blurb: "Etichette, nastri e cartellini per campagne e confezioni.",
-      image: "/img/etichette-studio.jpg",
+      image: "/img/etichette.jpg",
       imageAlt: "Etichette in tessuto personalizzate",
       products: [
         { label: "Etichette in tessuto", href: P("etichette-in-tessuto") },
@@ -208,6 +208,7 @@ export const quote = {
   title: "Dicci cosa ti serve",
   intro: "Tre passi, pochi campi. Preferisci parlare con noi? Chiama o scrivi su WhatsApp.",
   steps: ["01 Chi sei", "02 Contatti", "03 Richiesta"],
+  productSteps: ["01 Chi sei", "02 Prodotto", "03 Invio"],
   consent:
     "Compilando questo modulo autorizzo il trattamento dei dati secondo il Regolamento Europeo (GDPR n. 679/2016). Leggi la Privacy Policy prima di inviare.",
   success: {

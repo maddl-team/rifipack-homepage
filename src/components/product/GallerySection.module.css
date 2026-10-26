@@ -1,0 +1,5 @@
+.sec { background: var(--bg-deep); color: var(--text); }
+.head { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-6) var(--space-8); align-items: end; }
+.eyebrow { color: var(--kraft-muted); margin-bottom: var(--space-4); }
+.intro { color: var(--text-muted); font-size: 17px; line-height: 1.65; max-width: 56ch; }
+@media (max-width: 900px) { .head { grid-template-columns: 1fr; } }

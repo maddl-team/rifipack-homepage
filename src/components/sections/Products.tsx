@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { products } from "@/content/site";
 import { QuoteCta } from "@/components/ui/QuoteCta";
+import { resolveSiteLink } from "@/content/products";
 import s from "./Products.module.css";
 
 export function Products() {
@@ -14,7 +15,7 @@ export function Products() {
             <li key={f.id} className={s.card} data-reveal="card">
               <div className={s.im}>
                 {f.image ? (
-                  <Image src={f.image} alt={f.imageAlt} width={1200} height={900} sizes="(max-width: 767px) 92vw, 44vw" />
+                  <Image src={f.image} alt={f.imageAlt} width={1000} height={760} sizes="(max-width: 767px) 92vw, 44vw" />
                 ) : (
                   <div className={s.ph} role="img" aria-label={f.imageAlt}><span className="mono">{f.title}</span></div>
                 )}
@@ -25,7 +26,7 @@ export function Products() {
                 <ul className={s.list}>
                   {f.products.map((p) => (
                     <li key={p.href}>
-                      <a href={p.href}>{p.label}</a>
+                      <a href={resolveSiteLink(p.href)}>{p.label}</a>
                     </li>
                   ))}
                 </ul>
@@ -37,7 +38,7 @@ export function Products() {
           ))}
         </ul>
         <p className={s.more}>
-          <a href={products.gadget.href}>{products.gadget.label}</a>
+          <a href={resolveSiteLink(products.gadget.href)}>{products.gadget.label}</a>
           <span aria-hidden="true"> · </span>
           <a href="https://catalog.on-catalogue.com/view/316666780/" target="_blank" rel="noopener noreferrer">
             {products.gadget.catalogLabel} <span aria-hidden="true">↗</span>

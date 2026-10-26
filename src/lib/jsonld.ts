@@ -37,3 +37,33 @@ export function homeJsonLd() {
     ],
   };
 }
+
+/** Dati strutturati di una pagina prodotto: briciole di pane + prodotto (senza prezzo: si vende su preventivo). */
+export function productJsonLd(page: import("@/content/products/types").ProductPage) {
+  const url = `${SITE_URL}/${page.slug}/`;
+  const abs = (p: string) => `${SITE_URL}${p}`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: "Prodotti", item: `${SITE_URL}/#prodotti` },
+          { "@type": "ListItem", position: 3, name: page.name, item: url },
+        ],
+      },
+      {
+        "@type": "Product",
+        "@id": `${url}#product`,
+        name: page.name,
+        description: page.seo.description,
+        url,
+        category: page.family,
+        image: [page.hero.image.src, ...page.gallery.items.slice(0, 5).map((i) => i.src)].map(abs),
+        brand: { "@type": "Brand", name: "Rifipack" },
+        manufacturer: { "@id": `${SITE_URL}/#organization` },
+      },
+    ],
+  };
+}

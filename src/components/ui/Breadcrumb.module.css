@@ -1,0 +1,13 @@
+.list { display: flex; flex-wrap: wrap; gap: 4px 0; color: var(--text-muted); }
+.list li { display: inline-flex; align-items: center; }
+.list li + li::before { content: "/"; margin-inline: 10px; color: var(--line); }
+.list a { display: inline-block; padding: 12px 0; text-decoration: none; transition: color var(--d-quick); }
+.list a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+.list [aria-current] { color: var(--text); }
+
+/* Su schermi stretti la pagina corrente va su una riga propria, senza barra orfana a inizio riga. */
+@media (max-width: 600px) {
+  .list li:last-child { flex-basis: 100%; }
+  .list li:last-child::before { display: none; }
+  .list a { padding: 10px 0; }
+}

@@ -1,10 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { company, nav } from "@/content/site";
 import { Button } from "@/components/ui/Button";
 import s from "./Header.module.css";
+
+type NavItem = (typeof nav)[number];
+function NavLink({ item, onClick }: { item: NavItem; onClick?: () => void }) {
+  const external = "external" in item && item.external;
+  if (!external && item.href.startsWith("/")) return <Link href={item.href} onClick={onClick}>{item.label}</Link>;
+  return <a href={item.href} onClick={onClick} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{item.label}</a>;
+}
 
 /** Testata fissa: si nasconde scendendo, ricompare salendo o con il focus da tastiera. */
 export function Header() {
@@ -42,15 +50,11 @@ export function Header() {
       className={`${s.hd} ${hidden ? s.off : ""}`}
       onFocusCapture={() => setHidden(false)}
     >
-      <a className={s.logo} href="#top" aria-label="Rifipack Creative Packaging, torna in alto">
+      <Link className={s.logo} href="/" aria-label="Rifipack Creative Packaging, vai alla home">
         <Image src="/img/logo.png" alt="" width={726} height={257} priority sizes="120px" />
-      </a>
+      </Link>
       <nav className={s.nav} aria-label="Principale">
-        {nav.map((n) => (
-          <a key={n.label} href={n.href} {...("external" in n && n.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
-            {n.label}
-          </a>
-        ))}
+        {nav.map((n) => <NavLink key={n.label} item={n} />)}
       </nav>
       <div className={s.right}>
         <a className={s.tel} href={company.phone.href}>{company.phone.display}</a>
@@ -68,12 +72,7 @@ export function Header() {
       </div>
       <div id="menu-mobile" className={`${s.panel} ${open ? s.panelOpen : ""}`} hidden={!open}>
         <nav aria-label="Principale (mobile)">
-          {nav.map((n) => (
-            <a key={n.label} href={n.href} onClick={() => setOpen(false)}
-              {...("external" in n && n.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
-              {n.label}
-            </a>
-          ))}
+          {nav.map((n) => <NavLink key={n.label} item={n} onClick={() => setOpen(false)} />)}
           <a href={company.phone.href}>Chiama {company.phone.display}</a>
         </nav>
       </div>

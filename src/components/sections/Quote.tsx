@@ -1,18 +1,46 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import Image from "next/image";
 import { company, quote } from "@/content/site";
-import { QUOTE_STEPS, validateQuote, type QuoteErrors, type QuoteInput } from "@/lib/quote-schema";
-import { Button } from "@/components/ui/Button";
+import {
+  LOGO_ACCEPT, PRODUCT_QUOTE_STEPS, QUOTE_STEPS, validateLogo, validateQuote,
+  type QuoteErrors, type QuoteInput,
+} from "@/lib/quote-schema";
 import s from "./Quote.module.css";
 
 type Values = QuoteInput;
-const EMPTY: Values = { azienda: "", referente: "", citta: "", telefono: "", email: "", messaggio: "", consenso: false, website: "", prodotto: "" };
+const EMPTY: Values = {
+  azienda: "", referente: "", citta: "", telefono: "", email: "", messaggio: "", consenso: false,
+  website: "", prodotto: "", variante: "", quantita: "", misure: "",
+};
+
+/** Dati del modulo di una pagina prodotto (arrivano dal contenuto della pagina). */
+export type ProductFormConfig = {
+  slug: string;
+  name: string;
+  title: string;
+  intro: string;
+  variants: { label: string; options: { label: string; image: string }[] };
+  quantities: { label: string; options: string[] };
+  sizes: { label: string; options: string[] };
+};
 
 const prefersReduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export function Quote() {
-  const [v, setV] = useState<Values>(EMPTY);
+/**
+ * Modulo preventivo a passi. Senza `product` è quello della home (3 passi);
+ * con `product` diventa il modulo della pagina prodotto, a tutta larghezza e in 3 passi:
+ * contatti, scelta del prodotto (tessere-immagine, quantità, misure), dettagli con logo e invio.
+ */
+export function Quote({ product }: { product?: ProductFormConfig }) {
+  const steps = product ? PRODUCT_QUOTE_STEPS : QUOTE_STEPS;
+  const labels = product ? quote.productSteps : quote.steps;
+  const panes = product ? (["who", "product", "send"] as const) : (["who", "contact", "send"] as const);
+  const last = steps.length - 1;
+
+  const [v, setV] = useState<Values>({ ...EMPTY, ...(product ? { pagina: product.slug, prodotto: product.name } : {}) });
+  const [logo, setLogo] = useState<File | null>(null);
   const [errors, setErrors] = useState<QuoteErrors>({});
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState<1 | -1>(1);
@@ -23,18 +51,28 @@ export function Quote() {
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
+    if (product) return;
     const onPick = (e: Event) => setV((p) => ({ ...p, prodotto: String((e as CustomEvent).detail ?? "") }));
     window.addEventListener("rifipack:prodotto", onPick);
     return () => window.removeEventListener("rifipack:prodotto", onPick);
-  }, []);
+  }, [product]);
 
   const set = <K extends keyof Values>(k: K, val: Values[K]) => {
     setV((p) => ({ ...p, [k]: val }));
     if (errors[k]) setErrors((e) => ({ ...e, [k]: undefined }));
   };
 
+  const stepErrors = (n: number): QuoteErrors => {
+    const errs = validateQuote(v, steps[n]);
+    if (steps[n].includes("logo")) {
+      const m = validateLogo(logo);
+      if (m) errs.logo = m;
+    }
+    return errs;
+  };
+
   const focusFirstInvalid = (errs: QuoteErrors) => {
-    const first = QUOTE_STEPS[step].find((k) => errs[k]);
+    const first = steps[step].find((k) => errs[k]);
     if (first) formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
   };
 
@@ -50,14 +88,19 @@ export function Quote() {
     window.setTimeout(swap, 200);
   };
 
-  const next = async () => {
-    const errs = validateQuote(v, QUOTE_STEPS[step]);
-    setErrors(errs);
-    if (Object.keys(errs).length) return focusFirstInvalid(errs);
-    if (step < 2) return go(step + 1);
+  const send = async () => {
     setStatus("sending");
     try {
-      const res = await fetch("/api/quote", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(v) });
+      const { website, ...rest } = v;
+      let res: Response;
+      if (logo) {
+        const fd = new FormData();
+        Object.entries({ ...rest, website }).forEach(([k, val]) => fd.append(k, String(val ?? "")));
+        fd.append("logo", logo);
+        res = await fetch("/api/quote/", { method: "POST", body: fd });
+      } else {
+        res = await fetch("/api/quote/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(v) });
+      }
       const data = await res.json();
       if (!res.ok) {
         setErrors(data.errors ?? {});
@@ -69,6 +112,14 @@ export function Quote() {
     } catch {
       setStatus("error");
     }
+  };
+
+  const next = async () => {
+    const errs = stepErrors(step);
+    setErrors(errs);
+    if (Object.keys(errs).length) return focusFirstInvalid(errs);
+    if (step < last) return go(step + 1);
+    void send();
   };
 
   const onSubmit = (e: FormEvent) => { e.preventDefault(); void next(); };
@@ -87,13 +138,73 @@ export function Quote() {
       </span>
     ) : null;
 
+  const text = (k: "azienda" | "referente" | "citta" | "telefono" | "email", label: string, extra: Record<string, unknown>, cls = "") => (
+    <div className={`${s.fld} ${cls}`}>
+      <label htmlFor={`q-${k}`}>{label}</label>
+      <input className={s.input} required {...extra} {...fieldProps(k)} value={v[k]} onChange={(e) => set(k, e.target.value)} />
+      {err(k)}
+    </div>
+  );
+
+  const select = (k: "quantita" | "misure", cfg: { label: string; options: string[] }) => (
+    <div className={s.fld}>
+      <label htmlFor={`q-${k}`}>{cfg.label}</label>
+      <select className={`${s.input} ${s.select}`} required {...fieldProps(k)} value={v[k] ?? ""} onChange={(e) => set(k, e.target.value)}>
+        <option value="">Scegli…</option>
+        {cfg.options.map((o) => <option key={o} value={o}>{o}</option>)}
+      </select>
+      {err(k)}
+    </div>
+  );
+
+  const picker = (cfg: ProductFormConfig["variants"]) => (
+    <fieldset className={s.picker} aria-describedby={errors.variante ? "q-variante-err" : undefined}>
+      <legend className={s.legend}>{cfg.label}</legend>
+      <div className={s.tiles}>
+        {cfg.options.map((o) => (
+          <label key={o.label} className={s.tile}>
+            <input
+              type="radio" name="variante" value={o.label} required
+              aria-invalid={errors.variante ? true : undefined}
+              checked={v.variante === o.label} onChange={() => set("variante", o.label)}
+            />
+            <span className={s.tileIm}>
+              <Image src={o.image} alt="" fill sizes="(max-width: 600px) 30vw, (max-width: 1100px) 22vw, 150px" quality={70} />
+            </span>
+            <span className={s.tileT}>{o.label}</span>
+            <svg className={s.tick} viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9" /></svg>
+          </label>
+        ))}
+      </div>
+      {err("variante")}
+    </fieldset>
+  );
+
+  const logoField = (
+    <div className={s.fld}>
+      <label htmlFor="q-logo">Logo <small>(opzionale)</small></label>
+      <input
+        className={s.file} type="file" accept={LOGO_ACCEPT} {...fieldProps("logo")}
+        aria-describedby={[errors.logo ? "q-logo-err" : "", "q-logo-help"].filter(Boolean).join(" ")}
+        onChange={(e) => { setLogo(e.target.files?.[0] ?? null); if (errors.logo) setErrors((x) => ({ ...x, logo: undefined })); }}
+      />
+      <small id="q-logo-help" className={s.help}>PNG, JPG, SVG, PDF, AI o EPS, massimo 8 MB.</small>
+      {err("logo")}
+    </div>
+  );
+
+  const eyebrow: ReactNode = <p className={`mono ${s.eyebrow}`}>Preventivo</p>;
+  const pane = panes[step];
+
   return (
     <section className={`${s.sec} sec`} id="preventivo" aria-labelledby="preventivo-h">
-      <div className={`wrap ${s.in}`}>
-        <div>
-          <p className={`mono ${s.eyebrow}`}>Preventivo</p>
-          <h2 id="preventivo-h" className="h-section">{quote.title}</h2>
-          <p className={s.intro}>{quote.intro}</p>
+      <div className={`wrap ${s.in} ${product ? s.wide : ""}`}>
+        <div className={s.head}>
+          <div>
+            {eyebrow}
+            <h2 id="preventivo-h" className="h-section">{product ? product.title : quote.title}</h2>
+            <p className={s.intro}>{product ? product.intro : quote.intro}</p>
+          </div>
           <div className={s.phones}>
             <span>Tel. <a href={company.phone.href}>{company.phone.display}</a></span>
             <span>WhatsApp <a href={company.mobile.whatsapp} target="_blank" rel="noopener noreferrer">{company.mobile.display}</a></span>
@@ -103,8 +214,8 @@ export function Quote() {
 
         <form ref={formRef} className={s.form} onSubmit={onSubmit} noValidate data-reveal="block" aria-label="Richiesta di preventivo">
           {status !== "done" && (
-            <ol className={`mono ${s.steps}`} aria-label="Avanzamento">
-              {quote.steps.map((l, i) => (
+            <ol className={`mono ${s.steps}`} aria-label="Avanzamento" style={{ gridTemplateColumns: `repeat(${labels.length}, 1fr)` }}>
+              {labels.map((l, i) => (
                 <li key={l} className={i === step ? s.on : i < step ? s.done : ""} aria-current={i === step ? "step" : undefined}>{l}</li>
               ))}
             </ol>
@@ -122,36 +233,57 @@ export function Quote() {
             </div>
           ) : (
             <div ref={paneRef} className={`${s.pane} ${leaving ? s.out : s.in2}`} data-dir={dir}>
-              {step === 0 && (
+              {pane === "who" && (
                 <>
                   <h3 tabIndex={-1}>Chi sei</h3>
-                  <div className={s.fields}>
-                    <div className={s.fld}><label htmlFor="q-azienda">Azienda</label><input className={s.input} type="text" autoComplete="organization" required {...fieldProps("azienda")} value={v.azienda} onChange={(e) => set("azienda", e.target.value)} />{err("azienda")}</div>
-                    <div className={s.fld}><label htmlFor="q-referente">Referente</label><input className={s.input} type="text" autoComplete="name" required {...fieldProps("referente")} value={v.referente} onChange={(e) => set("referente", e.target.value)} />{err("referente")}</div>
-                    <div className={s.fld}><label htmlFor="q-citta">Città</label><input className={s.input} type="text" autoComplete="address-level2" required {...fieldProps("citta")} value={v.citta} onChange={(e) => set("citta", e.target.value)} />{err("citta")}</div>
+                  <div className={product ? s.cols6 : s.fields}>
+                    {text("azienda", "Azienda", { type: "text", autoComplete: "organization" }, s.sp2)}
+                    {text("referente", "Referente", { type: "text", autoComplete: "name" }, s.sp2)}
+                    {text("citta", "Città", { type: "text", autoComplete: "address-level2" }, s.sp2)}
+                    {product && text("telefono", "Telefono", { type: "tel", inputMode: "tel", autoComplete: "tel", placeholder: "Inserisci il tuo numero di telefono" }, s.sp3)}
+                    {product && text("email", "Email", { type: "email", inputMode: "email", autoComplete: "email" }, s.sp3)}
                   </div>
                 </>
               )}
-              {step === 1 && (
+              {pane === "contact" && !product && (
                 <>
                   <h3 tabIndex={-1}>Come ti contattiamo</h3>
                   <div className={s.fields}>
-                    <div className={s.fld}><label htmlFor="q-telefono">Telefono</label><input className={s.input} type="tel" inputMode="tel" autoComplete="tel" placeholder="Inserisci il tuo numero di telefono" required {...fieldProps("telefono")} value={v.telefono} onChange={(e) => set("telefono", e.target.value)} />{err("telefono")}</div>
-                    <div className={s.fld}><label htmlFor="q-email">Email</label><input className={s.input} type="email" inputMode="email" autoComplete="email" required {...fieldProps("email")} value={v.email} onChange={(e) => set("email", e.target.value)} />{err("email")}</div>
+                    {text("telefono", "Telefono", { type: "tel", inputMode: "tel", autoComplete: "tel", placeholder: "Inserisci il tuo numero di telefono" })}
+                    {text("email", "Email", { type: "email", inputMode: "email", autoComplete: "email" })}
                   </div>
                 </>
               )}
-              {step === 2 && (
+              {pane === "product" && product && (
                 <>
-                  <h3 tabIndex={-1}>Di cosa hai bisogno</h3>
+                  <h3 tabIndex={-1}>Scegli il prodotto</h3>
                   <div className={s.fields}>
-                    {v.prodotto ? (
+                    {picker(product.variants)}
+                    <div className={s.two}>
+                      {select("quantita", product.quantities)}
+                      {select("misure", product.sizes)}
+                    </div>
+                  </div>
+                </>
+              )}
+              {pane === "send" && (
+                <>
+                  <h3 tabIndex={-1}>{product ? "Ultimi dettagli" : "Di cosa hai bisogno"}</h3>
+                  <div className={s.fields}>
+                    {!product && v.prodotto ? (
                       <p className={s.pick}>
                         <span className="mono">Famiglia scelta</span> <b>{v.prodotto}</b>{" "}
                         <button type="button" onClick={() => set("prodotto", "")}>Rimuovi</button>
                       </p>
                     ) : null}
-                    <div className={s.fld}><label htmlFor="q-messaggio">Messaggio <small>(opzionale)</small></label><textarea className={s.input} placeholder="Prodotto, quantità, scadenza" {...fieldProps("messaggio")} value={v.messaggio} onChange={(e) => set("messaggio", e.target.value)} />{err("messaggio")}</div>
+                    <div className={product ? s.pair : undefined}>
+                      <div className={s.fld}>
+                        <label htmlFor="q-messaggio">Messaggio <small>(opzionale)</small></label>
+                        <textarea className={`${s.input} ${product ? s.tall : ""}`} placeholder={product ? "Finiture, scadenza, qualsiasi dettaglio utile" : "Prodotto, quantità, scadenza"} {...fieldProps("messaggio")} value={v.messaggio} onChange={(e) => set("messaggio", e.target.value)} />
+                        {err("messaggio")}
+                      </div>
+                      {product && logoField}
+                    </div>
                     <div className={s.fld}>
                       <label className={s.chk} htmlFor="q-consenso">
                         <input type="checkbox" required {...fieldProps("consenso")} checked={v.consenso} onChange={(e) => set("consenso", e.target.checked)} />
@@ -170,7 +302,7 @@ export function Quote() {
               <div className={s.nav}>
                 <button type="button" className={s.back} onClick={() => go(step - 1)} style={{ visibility: step > 0 ? "visible" : "hidden" }}>Indietro</button>
                 <button type="submit" className={s.next} disabled={status === "sending"}>
-                  {step === 2 ? (status === "sending" ? "Invio in corso" : "Invia richiesta") : "Avanti"} <span aria-hidden="true">→</span>
+                  {step === last ? (status === "sending" ? "Invio in corso" : "Invia richiesta") : "Avanti"} <span aria-hidden="true">→</span>
                 </button>
               </div>
             </div>
