@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { validateLogo, validateQuote, type QuoteInput } from "@/lib/quote-schema";
+import { getProduct } from "@/content/products";
+import { formAsks, validateLogo, validateQuote, type QuoteInput } from "@/lib/quote-schema";
 
 export const runtime = "nodejs";
 
@@ -47,7 +48,8 @@ export async function POST(req: Request) {
   // Campo trappola compilato: rispondiamo come se fosse andata bene, senza fare nulla.
   if (body.website) return NextResponse.json({ ok: true, delivered: true });
 
-  const errors = validateQuote(body);
+  const page = body.pagina ? getProduct(body.pagina) : undefined;
+  const errors = validateQuote(body, undefined, page ? formAsks(page.form) : { quantita: true, misure: true });
   const logoError = validateLogo(logo);
   if (logoError) errors.logo = logoError;
   if (Object.keys(errors).length) return NextResponse.json({ ok: false, errors }, { status: 422 });

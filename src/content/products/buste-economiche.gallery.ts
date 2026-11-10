@@ -1,0 +1,30 @@
+/* Foto della pagina attuale di rifipack.it. Didascalie ricavate dai nomi file originali. */
+import type { GalleryItem } from "./types";
+
+export const busteEconomicheGallery: GalleryItem[] = [
+  { src: "/img/prodotti/buste-economiche/01-okasan-otosan-shopper-maniglia-ritorta-fondo-largo-busta-delivery-asport.webp", w: 1000, h: 977, alt: "Okasan Otosan shopper con maniglia ritorta e fondo largo, busta per asporto" },
+  { src: "/img/prodotti/buste-economiche/02-icaro-shop-shopper-kraft-avana-fondo-largo-asporto-delivery-busta-in-car.webp", w: 793, h: 1000, alt: "Icaro Shop shopper kraft avana con fondo largo per asporto" },
+  { src: "/img/prodotti/buste-economiche/03-deliziosa-shopper-in-carta-maniglia-piatta-stampa-a-colori-frutta-verdur.webp", w: 945, h: 1000, alt: "Deliziosa shopper in carta con maniglia piatta e stampa a colori, frutta e verdura" },
+  { src: "/img/prodotti/buste-economiche/04-rifipack-403030-healthy-kitchen-busta-ristorazione-fondo-largo-shopper-m.webp", w: 774, h: 1000, alt: "Healthy Kitchen busta per ristorazione con fondo largo e maniglia ritorta bianca" },
+  { src: "/img/prodotti/buste-economiche/05-shimai-sushi-shopper-carta-kraft-bianca-maniglia-ritorta-nera-busta-eleg.webp", w: 760, h: 1000, alt: "Shimai Sushi shopper kraft bianca con maniglia ritorta nera" },
+  { src: "/img/prodotti/buste-economiche/06-sasa-sandwick-shopper-carta-maniglia-piatta-bianca-busta-asporto-panini.webp", w: 794, h: 1000, alt: "Sasa Sandwich shopper in carta con maniglia piatta bianca per asporto" },
+  { src: "/img/prodotti/buste-economiche/07-rr-trek-shopper-avana-maniglia-ritorta-avana-stampa-flexo-busta-economic.webp", w: 773, h: 1000, alt: "RR Trek shopper avana con maniglia ritorta e stampa flexo" },
+  { src: "/img/prodotti/buste-economiche/08-zeurino-shopper-in-carta-maniglia-in-carta-colorata-abbigliamento-sporti.webp", w: 820, h: 1000, alt: "Zeurino shopper in carta con maniglia colorata per abbigliamento" },
+  { src: "/img/prodotti/buste-economiche/09-wind-tre-shopper-carta-kraft-bianco-maniglia-ritorta-bianca-busta-telefo.webp", w: 637, h: 1000, alt: "Wind Tre shopper kraft bianca con maniglia ritorta bianca" },
+  { src: "/img/prodotti/buste-economiche/10-rito-shopper-colorata-maniglia-piatta-bianca-fondo-largo-delivery-asport.webp", w: 867, h: 1000, alt: "Rito shopper colorata con maniglia piatta bianca e fondo largo per asporto" },
+  { src: "/img/prodotti/buste-economiche/11-noos-shopper-in-carta-bianca-maniglia-piatta-bianca-busta-economica-blu.webp", w: 714, h: 1000, alt: "Noos shopper in carta bianca con maniglia piatta, stampa blu grigio e nero" },
+  { src: "/img/prodotti/buste-economiche/12-shopper-da-bottiglia-sealing-avana-maniglia-ritorta-fondo-nero-rifipack.webp", w: 385, h: 1000, alt: "Shopper da bottiglia sealing avana con maniglia ritorta e fondo nero" },
+  { src: "/img/prodotti/buste-economiche/13-shopper-carta-kraft-avana-maniglia-in-carta-piatta-logo-nero-formato-pic.webp", w: 649, h: 1000, alt: "Shopper kraft avana con maniglia piatta e logo nero, formato piccolo" },
+  { src: "/img/prodotti/buste-economiche/14-natinudi-pizzi-e-fragole-shopper-colorata-in-carta-economica-stampa-fles.webp", w: 866, h: 1000, alt: "Natinudi Pizzi e Fragole shopper colorata con stampa flessografica e maniglia verde" },
+  { src: "/img/prodotti/buste-economiche/15-bel-paese-ristorazione-grecia-shopper-avana-busta-da-asporto-delivery-ri.webp", w: 861, h: 1000, alt: "Bel Paese shopper avana per asporto con maniglia piatta" },
+  { src: "/img/prodotti/buste-economiche/16-baldan-group-centro-messegue-shopper-carta-maniglia-in-carta-ritorta-rif.webp", w: 679, h: 1000, alt: "Baldan Group Centro Messegue shopper in carta con maniglia ritorta" },
+  { src: "/img/prodotti/buste-economiche/17-santabona-shopper-in-carta-bianca-maniglia-in-carta-ritorta-bianca-macar.webp", w: 727, h: 1000, alt: "Santabona shopper bianca con maniglia ritorta per dolciumi" },
+  { src: "/img/prodotti/buste-economiche/18-de-roma-shopper-porta-pizza-carta-avana-formato-grande-maniglia-in-carta.webp", w: 850, h: 1000, alt: "De Roma shopper porta pizza in carta avana con maniglia ritorta" },
+  { src: "/img/prodotti/buste-economiche/19-shopper-food-riciclata.webp", w: 823, h: 1000, alt: "Shopper food in carta riciclata" },
+  { src: "/img/prodotti/buste-economiche/20-shopper-riciclata-avana.webp", w: 616, h: 1000, alt: "Shopper riciclata avana" },
+  { src: "/img/prodotti/buste-economiche/21-fausto-moda-kids-teenagers-abbigliamento-ragazzi-busta-in-carta-rifipack.webp", w: 839, h: 1000, alt: "Fausto Moda Kids e Teenagers busta in carta per abbigliamento" },
+  { src: "/img/prodotti/buste-economiche/22-beisler-editore-shopper-in-carta-bianca-maniglia-piatta-in-carta-rifipac.webp", w: 645, h: 1000, alt: "Beisler Editore shopper bianca con maniglia piatta" },
+  { src: "/img/prodotti/buste-economiche/23-paris-shopper-carta-sealing-avana-maniglia-in-carta-ritorta-avana-stampa.webp", w: 625, h: 1000, alt: "Paris shopper sealing avana con maniglia ritorta e stampa rossa" },
+  { src: "/img/prodotti/buste-economiche/24-cresci-shopper-in-carta-economica-maniglia-ritorta-panificio-forno-negoz.webp", w: 687, h: 1000, alt: "Cresci shopper economica con maniglia ritorta per panificio" },
+  { src: "/img/prodotti/buste-economiche/25-harley-davidson-shopper-in-carta-avana-maniglia-ritorta-avana-rifipack-m.webp", w: 627, h: 1000, alt: "Harley-Davidson shopper avana con maniglia ritorta" },
+];

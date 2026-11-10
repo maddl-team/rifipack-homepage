@@ -55,7 +55,25 @@ export function validateLogo(file: { name: string; size: number } | null | undef
   return null;
 }
 
-export function validateQuote(v: Partial<QuoteInput>, fields?: (keyof QuoteInput)[]): QuoteErrors {
+type MeasureForm = {
+  quantities: { options: string[] };
+  sizes: { options: string[] };
+  variants: { options: { quantities?: string[]; sizes?: string[] }[] };
+};
+
+/** Quali menu del modulo di pagina vanno mostrati: quantità, misure, o entrambi. */
+export function formAsks(form: MeasureForm): { quantita: boolean; misure: boolean } {
+  return {
+    quantita: form.quantities.options.length > 0 || form.variants.options.some((o) => (o.quantities?.length ?? 0) > 0),
+    misure: form.sizes.options.length > 0 || form.variants.options.some((o) => (o.sizes?.length ?? 0) > 0),
+  };
+}
+
+export function validateQuote(
+  v: Partial<QuoteInput>,
+  fields?: (keyof QuoteInput)[],
+  opts?: { quantita?: boolean; misure?: boolean },
+): QuoteErrors {
   const e: QuoteErrors = {};
   const check = (k: keyof QuoteInput, ok: boolean, msg: string) => {
     if ((!fields || fields.includes(k)) && !ok) e[k] = msg;
@@ -68,8 +86,8 @@ export function validateQuote(v: Partial<QuoteInput>, fields?: (keyof QuoteInput
   check("consenso", v.consenso === true, "Il consenso è necessario per inviare la richiesta.");
   if (v.pagina) {
     check("variante", !!v.variante?.trim(), "Scegli il prodotto che ti interessa.");
-    check("quantita", !!v.quantita?.trim(), "Scegli la quantità.");
-    check("misure", !!v.misure?.trim(), "Scegli le misure.");
+    if (opts?.quantita !== false) check("quantita", !!v.quantita?.trim(), "Scegli la quantità.");
+    if (opts?.misure !== false) check("misure", !!v.misure?.trim(), "Scegli le misure.");
   }
   if (v.messaggio && v.messaggio.length > 2000) check("messaggio", false, "Il messaggio è troppo lungo.");
   return e;

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "rea
 import Image from "next/image";
 import { company, quote } from "@/content/site";
 import {
-  LOGO_ACCEPT, PRODUCT_QUOTE_STEPS, QUOTE_STEPS, validateLogo, validateQuote,
+  LOGO_ACCEPT, PRODUCT_QUOTE_STEPS, QUOTE_STEPS, formAsks, validateLogo, validateQuote,
   type QuoteErrors, type QuoteInput,
 } from "@/lib/quote-schema";
 import s from "./Quote.module.css";
@@ -21,7 +21,7 @@ export type ProductFormConfig = {
   name: string;
   title: string;
   intro: string;
-  variants: { label: string; options: { label: string; image: string }[] };
+  variants: { label: string; options: { label: string; image: string; quantities?: string[]; sizes?: string[] }[] };
   quantities: { label: string; options: string[] };
   sizes: { label: string; options: string[] };
 };
@@ -62,8 +62,31 @@ export function Quote({ product }: { product?: ProductFormConfig }) {
     if (errors[k]) setErrors((e) => ({ ...e, [k]: undefined }));
   };
 
+  /** Quantità e misure del modello scelto. Se il modello non ne ha di proprie, valgono quelle della pagina. */
+  const chosen = product?.variants.options.find((o) => o.label === v.variante);
+  const profiled = !!product?.variants.options.some((o) => o.quantities || o.sizes);
+  const lists = {
+    quantities: { label: product?.quantities.label ?? "", options: chosen?.quantities ?? (profiled ? [] : product?.quantities.options ?? []) },
+    sizes: { label: product?.sizes.label ?? "", options: chosen?.sizes ?? (profiled ? [] : product?.sizes.options ?? []) },
+  };
+  /** Il modulo originale può avere solo la quantità, solo le misure, entrambi o nessuno. */
+  const ask = product ? formAsks(product) : { quantita: true, misure: true };
+  const chooseVariant = (label: string) => {
+    const opt = product?.variants.options.find((o) => o.label === label);
+    setV((p) => ({
+      ...p,
+      variante: label,
+      quantita: opt?.quantities && p.quantita && !opt.quantities.includes(p.quantita) ? "" : p.quantita,
+      misure: opt?.sizes && p.misure && !opt.sizes.includes(p.misure) ? "" : p.misure,
+    }));
+    if (errors.variante || errors.quantita || errors.misure) {
+      setErrors((e) => ({ ...e, variante: undefined, quantita: undefined, misure: undefined }));
+    }
+  };
+
   const stepErrors = (n: number): QuoteErrors => {
-    const errs = validateQuote(v, steps[n]);
+    const fields = steps[n].filter((k) => (k === "quantita" ? ask.quantita : k === "misure" ? ask.misure : true));
+    const errs = validateQuote(v, fields, ask);
     if (steps[n].includes("logo")) {
       const m = validateLogo(logo);
       if (m) errs.logo = m;
@@ -149,8 +172,8 @@ export function Quote({ product }: { product?: ProductFormConfig }) {
   const select = (k: "quantita" | "misure", cfg: { label: string; options: string[] }) => (
     <div className={s.fld}>
       <label htmlFor={`q-${k}`}>{cfg.label}</label>
-      <select className={`${s.input} ${s.select}`} required {...fieldProps(k)} value={v[k] ?? ""} onChange={(e) => set(k, e.target.value)}>
-        <option value="">Scegli…</option>
+      <select className={`${s.input} ${s.select}`} required disabled={!cfg.options.length} {...fieldProps(k)} value={v[k] ?? ""} onChange={(e) => set(k, e.target.value)}>
+        <option value="">{cfg.options.length ? "Scegli…" : "Prima scegli il prodotto"}</option>
         {cfg.options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>
       {err(k)}
@@ -166,7 +189,7 @@ export function Quote({ product }: { product?: ProductFormConfig }) {
             <input
               type="radio" name="variante" value={o.label} required
               aria-invalid={errors.variante ? true : undefined}
-              checked={v.variante === o.label} onChange={() => set("variante", o.label)}
+              checked={v.variante === o.label} onChange={() => chooseVariant(o.label)}
             />
             <span className={s.tileIm}>
               <Image src={o.image} alt="" fill sizes="(max-width: 600px) 30vw, (max-width: 1100px) 22vw, 150px" quality={70} />
@@ -259,10 +282,12 @@ export function Quote({ product }: { product?: ProductFormConfig }) {
                   <h3 tabIndex={-1}>Scegli il prodotto</h3>
                   <div className={s.fields}>
                     {picker(product.variants)}
-                    <div className={s.two}>
-                      {select("quantita", product.quantities)}
-                      {select("misure", product.sizes)}
-                    </div>
+                    {(ask.quantita || ask.misure) && (
+                      <div className={ask.quantita && ask.misure ? s.two : undefined}>
+                        {ask.quantita && select("quantita", lists.quantities)}
+                        {ask.misure && select("misure", lists.sizes)}
+                      </div>
+                    )}
                   </div>
                 </>
               )}

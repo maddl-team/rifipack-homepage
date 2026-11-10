@@ -33,7 +33,16 @@ export type ProductPage = {
     title: string;
     intro: string;
     /** Modelli scelti con tessere-immagine (stesso elenco del modulo originale). */
-    variants: { label: string; options: { label: string; image: string }[] };
+    variants: {
+      label: string;
+      options: {
+        label: string;
+        image: string;
+        /** Se presenti, quantità e misure dipendono dal modello scelto, come nel modulo originale. */
+        quantities?: string[];
+        sizes?: string[];
+      }[];
+    };
     quantities: { label: string; options: string[] };
     sizes: { label: string; options: string[] };
   };
