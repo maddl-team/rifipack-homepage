@@ -28,6 +28,8 @@ export type ProductPage = {
   /** Blocchi descrittivi numerati, ognuno con il suo H2. */
   sections: { title: string; paragraphs: string[] }[];
   sectionsCta: string;
+  /** Domande frequenti, scritte a partire dai testi della pagina. */
+  faqs?: { q: string; a: string }[];
   /** Modulo preventivo specifico del prodotto. */
   form: {
     title: string;
@@ -43,7 +45,7 @@ export type ProductPage = {
         sizes?: string[];
       }[];
     };
-    quantities: { label: string; options: string[] };
+    quantities: { label: string; options: string[]; /** Campo libero, non un menu. Sul modulo originale è facoltativo. */ free?: boolean };
     sizes: { label: string; options: string[] };
   };
   /** Slug dei prodotti suggeriti in fondo alla pagina (se manca: tutti gli altri). */

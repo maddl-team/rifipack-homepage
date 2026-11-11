@@ -88,6 +88,28 @@ export const busteEconomiche: ProductPage = {
     },
   ],
   sectionsCta: "Richiedi un preventivo",
+  faqs: [
+    {
+      q: "Dove vengono prodotte le buste economiche?",
+      a: "Esclusivamente in Italia. La linea è semplice e versatile, pensata per un buon rapporto qualità/prezzo, senza rinunciare a manici, stampa e tipo di carta.",
+    },
+    {
+      q: "Che differenza c’è tra maniglia piatta e maniglia ritorta?",
+      a: "Nel modulo le due famiglie hanno quantità e misure diverse. La maniglia piatta si ordina a 600, 1200, 2400 o 4800 pezzi, con formati da 18x8x24h a 45x15x49h. La ritorta si ordina a 400, 800, 1600 o 3200 pezzi, da 14x8,5x21,5h a 55x15x49h. Tra i modelli ci sono anche fondo largo, pizza, bottiglia, delivery, food, sushi, sealing, carta riciclata e avana.",
+    },
+    {
+      q: "La stampa resta visibile anche sulla carta avana?",
+      a: "Sì. Usiamo inchiostri di qualità, con colori vivaci e duraturi anche sulla carta avana, che di solito rende meno del bianco. Puoi scegliere un colore, due colori o la quadricromia, su kraft, avana, bianca o riciclata.",
+    },
+    {
+      q: "Vanno bene per un piccolo negozio o solo per grandi ordini?",
+      a: "Per entrambi. Le buste coprono il piccolo negozio e la grande distribuzione, il retail di tutti i giorni e le buste per un evento. Il prezzo resta contenuto, la carta è scelta per essere resistente.",
+    },
+    {
+      q: "Come si ordinano?",
+      a: "Dal modulo scegli il modello, la quantità e le misure. Ti seguiamo dalla selezione dei materiali e del logo fino alla consegna, sia per le shopper da banco sia per i sacchetti da lasciare a un evento.",
+    },
+  ],
   form: {
     title: "Compila il form per avere il tuo prodotto personalizzato",
     intro: "Tre passi, pochi campi. Preferisci parlare con noi? Chiama o scrivi su WhatsApp.", // NUOVO

@@ -88,6 +88,28 @@ export const scatoleRegalo: ProductPage = {
     },
   ],
   sectionsCta: "Richiedi un preventivo",
+  faqs: [
+    {
+      q: "Di che materiali sono le scatole regalo?",
+      a: "Di materiali pregiati, resistenti e raffinati, anche eco-sostenibili. La produzione è interamente Made in Italy. Colori e texture si scelgono in base all’occasione e al marchio.",
+    },
+    {
+      q: "Che chiusure posso scegliere?",
+      a: "La chiusura a calamita, pratica, oppure fondo e coperchio. Nel modulo ci sono anche la scatola per la gioielleria, quella per la bottiglia, il panettone, la colomba e la scatola regalo shopper.",
+    },
+    {
+      q: "Per quali prodotti sono pensate?",
+      a: "Per gioielli e oreficeria, accessori di pregio come portafogli e foulard, vini e liquori, e per i regali che devono lasciare un’impressione. Ogni scatola unisce protezione e presentazione.",
+    },
+    {
+      q: "Cosa si può personalizzare?",
+      a: "Logo e grafica, colori e texture, rilievi e nastri in tessuto. Il progetto è su misura, per aziende e privati, con una consulenza dedicata.",
+    },
+    {
+      q: "Da quanti pezzi si parte?",
+      a: "Nel modulo le quantità sono 500, 1000, 2500, 5000 o 10000 pezzi. Le misure non sono un elenco fisso: si definiscono sul progetto, insieme a chiusure e finiture.",
+    },
+  ],
   form: {
     title: "Compila il form per avere il tuo prodotto personalizzato",
     intro: "Tre passi, pochi campi. Preferisci parlare con noi? Chiama o scrivi su WhatsApp.", // NUOVO

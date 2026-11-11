@@ -72,6 +72,28 @@ export const packagingAlimentare: ProductPage = {
     },
   ],
   sectionsCta: "Richiedi un preventivo",
+  faqs: [
+    {
+      q: "Per quali attività è il packaging alimentare?",
+      a: "Per supermercati, ristoranti, take away e grossisti, sia sul dolce sia sul salato. Copre anche enoteche che confezionano bottiglie e tavole calde che usano tovaglie e sacchetti per le posate.",
+    },
+    {
+      q: "È adatto al contatto con il cibo?",
+      a: "Sì. Gli imballaggi gestiscono alimenti caldi e freddi con la pulizia e l’igiene richieste dalla legge. I materiali sono a norma e adatti al contatto alimentare: la confezione non è solo comunicazione, riguarda anche la salute di chi mangia.",
+    },
+    {
+      q: "Cosa posso personalizzare?",
+      a: "Bicchieri in carta per bevande calde e fredde, carta antiunto, scatole da asporto, sacchetti delivery e fondo piatto, buste porta posate, bustine per le bacchette, barattoli per il gelato, vaschette e confezioni per il panettone. Su tutti puoi mettere logo e colori aziendali.",
+    },
+    {
+      q: "Si può scegliere un materiale più sostenibile?",
+      a: "Sì. Lavoriamo con materiali monouso e un packaging ecosostenibile, così il marchio si muove e allo stesso tempo mostri attenzione per l’ambiente.",
+    },
+    {
+      q: "Come si ordina la quantità?",
+      a: "Nel modulo scegli il prodotto. Quantità e formato si definiscono nella richiesta: indichi il quantitativo e ti aiutiamo a studiare la stampa, così le confezioni arrivano in sede.",
+    },
+  ],
   form: {
     title: "Compila il form per avere il tuo prodotto personalizzato",
     intro: "Tre passi, pochi campi. Preferisci parlare con noi? Chiama o scrivi su WhatsApp.", // NUOVO

@@ -8,13 +8,21 @@ import { borseTessuto } from "./borse-tessuto";
 import { packagingAlimentare } from "./packaging-alimentare";
 import { sacchettiAlluminio } from "./sacchetti-alluminio";
 import { scatoleRegalo } from "./scatole-regalo";
+import { cartaRegalo } from "./carta-regalo";
+import { ecommerce } from "./ecommerce";
+import { nastroAdesivo } from "./nastro-adesivo";
+import { etichetteTessuto } from "./etichette-tessuto";
+import { etichetteAdesive } from "./etichette-adesive";
+import { nastriRaso } from "./nastri-raso";
+import { cartellini } from "./cartellini";
+import { gadget } from "./gadget";
 
 /**
  * Registro delle pagine prodotto del nuovo sito. Per aggiungerne una:
  * 1. crea src/content/products/<nome>.ts (copia shopper-lusso.ts),
  * 2. aggiungila qui sotto. Rotta, SEO, sitemap e link interni si aggiornano da soli.
  */
-export const productPages: ProductPage[] = [shopperLusso, busteEconomiche, shopperBio, borseTessuto, packagingAlimentare, sacchettiAlluminio, scatoleRegalo];
+export const productPages: ProductPage[] = [shopperLusso, busteEconomiche, shopperBio, borseTessuto, packagingAlimentare, sacchettiAlluminio, scatoleRegalo, cartaRegalo, ecommerce, nastroAdesivo, etichetteTessuto, etichetteAdesive, nastriRaso, cartellini, gadget];
 
 const bySlug = new Map(productPages.map((p) => [p.slug, p]));
 export const getProduct = (slug: string) => bySlug.get(slug);

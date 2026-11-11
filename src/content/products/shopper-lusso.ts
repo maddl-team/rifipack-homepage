@@ -72,6 +72,32 @@ export const shopperLusso: ProductPage = {
     },
   ],
   sectionsCta: "Richiedi un preventivo",
+  faqs: [
+    {
+      q: "Dove vengono realizzate le shopper di lusso?",
+      a: "Sono prodotte e allestite esclusivamente in Italia, dalle mani degli artigiani Rifipack.",
+    },
+    {
+      q: "Che carta e che finiture posso scegliere?",
+      a: "Usiamo carta di lusso, bella da vedere e anche resistente e comoda. Puoi chiedere una finitura opaca o lucida, plastificata o non plastificata, e i colori e le texture del tuo brand. Nel modulo trovi anche il fiocco centrale, la maniglia a quattro nodi, la tracolla e il nastro.",
+    },
+    {
+      q: "Come viene stampato il logo?",
+      a: "Con inchiostri di alta qualità, per colori vivaci e duraturi. La stampa può essere elegante in rilievo, a caldo, come sull’argento della carta in pasta nera, oppure a colori. La lavorazione è seguita con la massima cura, per una resa impeccabile.",
+    },
+    {
+      q: "Per quali negozi e prodotti sono pensate?",
+      a: "Per brand e prodotti d’eccellenza, soprattutto abbigliamento. I modelli coprono anche gioielleria, editoria, fiere, gallerie, camicerie, centri benessere, guanti, sneakers, panettone e formati per una bottiglia, due bottiglie o magnum.",
+    },
+    {
+      q: "Quali quantità e misure posso ordinare?",
+      a: "Nel modulo le quantità sono 100, 200, 300, 500 o 1000 pezzi. Le misure previste vanno da 12x9x39h a 70x15x50h, con i formati intermedi del menu.",
+    },
+    {
+      q: "Come si ordinano online?",
+      a: "Dal modulo della pagina scegli il modello, la quantità e le misure, poi ci mandi logo e indicazioni. Design, materiali e finiture restano su misura, con i colori e le texture che ci indichi.",
+    },
+  ],
   form: {
     title: "Compila il form per avere il tuo prodotto personalizzato",
     intro: "Tre passi, pochi campi. Preferisci parlare con noi? Chiama o scrivi su WhatsApp.", // NUOVO

@@ -77,6 +77,28 @@ export const sacchettiAlluminio: ProductPage = {
     },
   ],
   sectionsCta: "Richiedi un preventivo",
+  faqs: [
+    {
+      q: "Cosa blocca il sacchetto in alluminio?",
+      a: "La struttura pluristrato, in Mylar e alluminio, fa da barriera a luce e raggi UV, ossigeno, umidità e odori. Così si limita l’ossidazione e l’irrancidimento e la shelf life del prodotto si allunga.",
+    },
+    {
+      q: "Si può richiudere dopo l’apertura?",
+      a: "Sì. Ha una zip a pressione, apri e chiudi, così il contenuto resta nella confezione originale e mantiene la freschezza. Il fondo ovale lo fa stare in piedi sullo scaffale.",
+    },
+    {
+      q: "I materiali sono idonei al cibo?",
+      a: "Sì. Sono conformi alla certificazione SGS e idonei al contatto diretto con gli alimenti, food grade, senza contaminanti. La laminazione resiste anche a strappi, perforazioni e cadute in trasporto.",
+    },
+    {
+      q: "Per quali prodotti si usano?",
+      a: "Per farine, integratori e spezie, snack e frutta secca, caffè e tè, pet food, carne secca e prodotti disidratati. Ovunque serva protezione e una buona presenza a scaffale.",
+    },
+    {
+      q: "Come si personalizzano formato e stampa?",
+      a: "Si stampa il logo, la grafica a colori e le istruzioni direttamente sul sacchetto. I formati vanno dal monodose ai grandi formati, con finitura lucida, opaca o metallizzata. Quantità e misura non sono nel menu: si scrivono nella richiesta.",
+    },
+  ],
   form: {
     title: "Compila il form per avere il tuo prodotto personalizzato",
     intro: "Tre passi, pochi campi. Preferisci parlare con noi? Chiama o scrivi su WhatsApp.", // NUOVO

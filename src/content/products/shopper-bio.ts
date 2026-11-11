@@ -100,6 +100,28 @@ export const shopperBio: ProductPage = {
     },
   ],
   sectionsCta: "Richiedi un preventivo",
+  faqs: [
+    {
+      q: "Le shopper in plastica bio sono a norma?",
+      a: "Sì. Sono prodotte rispettando le norme vigenti su spessori e composizione. Le shopper bio sono riciclabili, riutilizzabili e resistenti. Le borsine del catalogo sono studiate con materiali biodegradabili, senza rinunciare a stile e praticità.",
+    },
+    {
+      q: "Che modelli e che plastiche posso scegliere?",
+      a: "Maniglia a fagiolo o a canottiera, soffietto, fondo pieno, chiusura a pressione, chiusura con cursore e bustine. La plastica può essere lucida, trasparente, rigida, morbida, rinforzata o opaca. C’è anche la versione con il 30% di plastica riciclata, e puoi aggiungere colori, fantasie e il logo.",
+    },
+    {
+      q: "Le quantità sono in pezzi o in chili?",
+      a: "Dipende dal modello. Chiusura a pressione, cursore e bustine si ordinano a 5000, 10000 o 15000 pezzi, nei formati 12x20, 15x25, 18x30, 22x35 o 30x40 cm. Le biodegradabili a canottiera o a fagiolo si indicano a 150, 250, 350 o 450 kg. Gli altri modelli, tra cui canottiera, fagiolo, maniglia a borsetta, maniglia termosaldata, polietilene e la plastica con il 30% di riciclato, si indicano a 100, 200, 300 o 400 kg.",
+    },
+    {
+      q: "Per quali attività sono pensate?",
+      a: "Per negozi, centri commerciali, uffici ed eventi. Servono sia alla vendita all’ingrosso sia al dettaglio, quando il sacchetto deve restare economico e portare comunque il marchio.",
+    },
+    {
+      q: "Si possono riutilizzare?",
+      a: "Sì. Sono resistenti e comode, anche nei formati grandi, così il cliente può usarle più di una volta. Restano uno strumento di branding, con colori e logo scelti da te.",
+    },
+  ],
   form: {
     title: "Compila il form per avere il tuo prodotto personalizzato",
     intro: "Tre passi, pochi campi. Preferisci parlare con noi? Chiama o scrivi su WhatsApp.", // NUOVO

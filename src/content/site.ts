@@ -24,8 +24,8 @@ export const company = {
   mepa: true,
 } as const;
 
+/** Voci semplici. Prodotti e Settori sono menu a tendina costruiti in Header dai registri delle pagine. */
 export const nav = [
-  { label: "Prodotti", href: "/#prodotti" },
   { label: "Portfolio", href: "https://www.rifipack.it/portfolio/", external: true },
   { label: "Chi siamo", href: "https://www.rifipack.it/chi-siamo/", external: true },
   { label: "Contatti", href: "#preventivo" },

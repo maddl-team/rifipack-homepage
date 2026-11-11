@@ -1,0 +1,143 @@
+/* Hero: stessa geometria della pagina prodotto (pannello kraft, alette, tipografia). */
+.hero {
+  --W: min(100cqw, var(--container-max));
+  --off: calc((100cqw - var(--W)) / 2);
+  --hpad: calc(var(--off) + var(--gut));
+  --split: calc(var(--off) + var(--W) * 0.56);
+  container-type: inline-size;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  min-height: clamp(720px, 96svh, 980px);
+}
+.copy {
+  width: calc(var(--split) - var(--hpad) - var(--space-6));
+  min-width: 0;
+  position: relative;
+  z-index: 3;
+  margin: calc(var(--header-h) + var(--space-4)) 0 var(--space-8) var(--hpad);
+}
+.eyebrow { color: var(--accent); margin-top: var(--space-6); }
+.h1 {
+  margin-top: var(--space-3);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  font-size: max(32px, min(60px, calc(var(--W) * 0.04)));
+  max-width: 16ch;
+}
+.lead {
+  margin-top: var(--space-5);
+  max-width: 52ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.acts { display: flex; flex-wrap: wrap; gap: 14px; margin-top: var(--space-6); }
+
+.stage {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  overflow: hidden;
+  top: var(--header-h);
+  right: 0;
+  bottom: 0;
+  left: var(--split);
+  background: var(--kraft);
+  border-top-left-radius: var(--radius-xl);
+  box-shadow: var(--shadow-ground);
+}
+.img {
+  position: absolute;
+  inset: 8% 8% 14%;
+  width: 84%;
+  height: 78%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.cap { position: absolute; left: var(--space-5); bottom: var(--space-4); right: var(--space-5); color: var(--kraft-muted); }
+.flap { position: absolute; top: 0; bottom: 0; width: 50.5%; background: var(--brand); z-index: 2; }
+.flapL { left: 0; animation: openL var(--d-hero) var(--ease-inout) 150ms both; }
+.flapR { right: 0; animation: openR var(--d-hero) var(--ease-inout) 150ms both; }
+@keyframes openL { from { transform: none; } to { transform: translateX(-101%); } }
+@keyframes openR { from { transform: none; } to { transform: translateX(101%); } }
+
+.head { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-6) var(--space-8); align-items: end; }
+.kicker { color: var(--text-muted); margin-bottom: var(--space-4); }
+.intro { color: var(--text-muted); font-size: 17px; line-height: 1.65; max-width: 52ch; }
+
+.benefits { background: var(--bg-deep); color: var(--text); }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); margin-top: var(--space-7); }
+.benefit { display: grid; gap: var(--space-3); align-content: start; padding-top: var(--space-4); border-top: 1px solid var(--line); }
+.benefit b { color: var(--accent); }
+.benefit h3 { font: 800 24px/28px var(--f-display); letter-spacing: -0.015em; }
+.benefit p { color: var(--text-muted); font-size: 16px; line-height: 1.55; }
+
+.process { background: var(--bg); }
+.steps { margin-top: var(--space-7); border-bottom: 1px solid var(--line); }
+.step {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 0.8fr) minmax(0, 1.1fr);
+  gap: var(--space-5) var(--space-6);
+  align-items: start;
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--line);
+}
+.n { color: var(--accent); padding-top: 8px; }
+.step h3 { font: 800 clamp(24px, 2.4vw, 36px)/1.05 var(--f-display); letter-spacing: -0.02em; }
+.step p { color: var(--text-muted); font-size: 17px; line-height: 1.65; max-width: 58ch; }
+
+.materials { background: var(--bg-deep); color: var(--text); }
+.mat { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: var(--space-8); align-items: center; }
+.shot { margin: 0; background: var(--surface); border-radius: var(--radius-xl); overflow: hidden; }
+.shot img { width: 100%; height: auto; mix-blend-mode: multiply; }
+.mats { display: grid; gap: var(--space-5); margin-top: var(--space-6); }
+.mats li { display: grid; gap: 8px; padding-top: var(--space-4); border-top: 1px solid var(--line); }
+.mats h3 { font: 800 22px/26px var(--f-display); letter-spacing: -0.015em; }
+.mats p { color: var(--text-muted); font-size: 16px; line-height: 1.6; }
+
+.solutions { background: var(--bg); }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-7); }
+.card {
+  display: grid;
+  align-content: start;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.frame { display: block; aspect-ratio: 4 / 3; background: var(--kraft); overflow: hidden; }
+.frame img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+.card h3 { margin: var(--space-5) var(--space-5) 0; font: 800 clamp(24px, 2vw, 32px)/1.1 var(--f-display); letter-spacing: -0.02em; }
+.card p { margin: var(--space-3) var(--space-5) var(--space-5); color: var(--text-muted); font-size: 16px; line-height: 1.6; max-width: 46ch; }
+
+.finishes { background: var(--bg-deep); color: var(--text); }
+.rows { margin-top: var(--space-7); border-bottom: 1px solid var(--line); }
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.2fr);
+  gap: var(--space-5) var(--space-7);
+  align-items: baseline;
+  padding-block: var(--space-5);
+  border-top: 1px solid var(--line);
+}
+.row dt { font: 800 clamp(20px, 2vw, 28px)/1.15 var(--f-display); letter-spacing: -0.02em; }
+.row dd { margin: 0; color: var(--text-muted); font-size: 17px; line-height: 1.6; max-width: 58ch; }
+
+@media (max-width: 1023px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .hero { --hpad: var(--gut); min-height: 0; display: flex; flex-direction: column; }
+  .copy { width: auto; margin: calc(var(--header-h) - 24px) var(--gut) 0; }
+  .h1 { max-width: none; }
+  .acts > a { flex: 1 1 100%; }
+  .stage { position: relative; inset: auto; height: min(104vw, 560px); margin: var(--space-7) 0 0 var(--space-4); }
+  .head, .mat, .step, .row { grid-template-columns: 1fr; }
+  .n { padding-top: 0; }
+  .cards { grid-template-columns: 1fr; }
+}
+@media (max-width: 599px) {
+  .grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .flap { display: none; } }

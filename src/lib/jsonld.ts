@@ -42,9 +42,7 @@ export function homeJsonLd() {
 export function productJsonLd(page: import("@/content/products/types").ProductPage) {
   const url = `${SITE_URL}/${page.slug}/`;
   const abs = (p: string) => `${SITE_URL}${p}`;
-  return {
-    "@context": "https://schema.org",
-    "@graph": [
+  const graph: object[] = [
       {
         "@type": "BreadcrumbList",
         itemListElement: [
@@ -63,6 +61,41 @@ export function productJsonLd(page: import("@/content/products/types").ProductPa
         image: [page.hero.image.src, ...page.gallery.items.slice(0, 5).map((i) => i.src)].map(abs),
         brand: { "@type": "Brand", name: "Rifipack" },
         manufacturer: { "@id": `${SITE_URL}/#organization` },
+      },
+    ];
+  if (page.faqs?.length) {
+    graph.push({
+      "@type": "FAQPage",
+      mainEntity: page.faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    });
+  }
+  return { "@context": "https://schema.org", "@graph": graph };
+}
+
+/** Dati strutturati di una pagina settore: percorso e domande frequenti. */
+export function sectorJsonLd(page: import("@/content/sectors/types").SectorPage) {
+  const url = `${SITE_URL}/settori/${page.slug}/`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: page.name, item: url },
+        ],
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: page.faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
       },
     ],
   };

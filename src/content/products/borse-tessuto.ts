@@ -99,6 +99,28 @@ export const borseTessuto: ProductPage = {
     },
   ],
   sectionsCta: "Richiedi un preventivo",
+  faqs: [
+    {
+      q: "Meglio cotone o TNT?",
+      a: "Dipende dall’uso. Il cotone, anche pesante, riciclato o melange, è la shopper da regalare e da riusare a lungo: tiene l’aspetto anche dopo molti utilizzi. Il TNT copre i formati maxi, food e bottiglia. Nel modulo ci sono anche juta, sacche, zainetti e la shopper spesa.",
+    },
+    {
+      q: "Perché una borsa in tela e non in carta o plastica?",
+      a: "Perché si riutilizza e diventa pubblicità offline. Chi la riceve a un evento, a un seminario o in negozio se la porta via, e il logo continua a girare. È una scelta ecologica, pratica e resistente.",
+    },
+    {
+      q: "Come viene stampato il logo sul tessuto?",
+      a: "Con inchiostri di altissima qualità, per colori nitidi e vivaci. La tecnica si adatta al tessuto, così la resa resta precisa su cotone, TNT e juta. Puoi chiedere un colore, due colori o la quadricromia.",
+    },
+    {
+      q: "Quali quantità e misure ci sono?",
+      a: "Cotone, shopper TNT (maxi, bottiglia, canottiera e food) e zainetto a due colori o in poliestere: 250, 500, 1000, 1500 o 2000 pezzi. Sacche, sacchetto in TNT, chiusura a strozzo, zainetto in cotone ecologico e shopper spesa: 300, 600, 900, 1200 o 1500 pezzi. La juta: 100, 200, 300 o 500 pezzi. Lo zainetto a due colori e quello in poliestere sono 37x40 cm, la spesa è 45x18/40h. Gli altri modelli hanno più misure nel menu.",
+    },
+    {
+      q: "Vanno bene come gadget per un congresso?",
+      a: "Sì. Sono pensate per eventi, workshop e negozi: un oggetto che il partecipante usa davvero, con logo e colori aziendali. Dal modulo scegli il modello, la quantità e la misura, poi ci mandi il logo.",
+    },
+  ],
   form: {
     title: "Compila il form per avere il tuo prodotto personalizzato",
     intro: "Tre passi, pochi campi. Preferisci parlare con noi? Chiama o scrivi su WhatsApp.", // NUOVO

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { ProductHero } from "./ProductHero";
 import { GallerySection } from "./GallerySection";
 import { SpecList } from "./SpecList";
+import { FaqList } from "./FaqList";
 import { RelatedProducts } from "./RelatedProducts";
 
 /**
@@ -27,6 +28,7 @@ export function ProductPageView({ page }: { page: ProductPage }) {
         <SpecList items={page.sections}>
           <Button href="#preventivo" arrow="→">{page.sectionsCta}</Button>
         </SpecList>
+        {page.faqs?.length ? <FaqList items={page.faqs} /> : null}
         <Quote product={{ slug: page.slug, name: page.name, ...page.form }} />
         <RelatedProducts title="Potrebbe interessarti anche…" items={relatedFor(page)} />
         <ShopStrip />

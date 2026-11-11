@@ -58,21 +58,30 @@ export function validateLogo(file: { name: string; size: number } | null | undef
 type MeasureForm = {
   quantities: { options: string[] };
   sizes: { options: string[] };
-  variants: { options: { quantities?: string[]; sizes?: string[] }[] };
+  variants: { options: { label: string; quantities?: string[]; sizes?: string[] }[] };
 };
 
-/** Quali menu del modulo di pagina vanno mostrati: quantità, misure, o entrambi. */
-export function formAsks(form: MeasureForm): { quantita: boolean; misure: boolean } {
-  return {
+/** Quali campi servono. Con una variante, solo i suoi elenchi; altrimenti quelli della pagina. */
+export function formAsks(form: MeasureForm, variant?: string): { quantita: boolean; misure: boolean; variante: boolean } {
+  const page = {
     quantita: form.quantities.options.length > 0 || form.variants.options.some((o) => (o.quantities?.length ?? 0) > 0),
     misure: form.sizes.options.length > 0 || form.variants.options.some((o) => (o.sizes?.length ?? 0) > 0),
+    variante: form.variants.options.length > 0,
+  };
+  const opt = variant ? form.variants.options.find((o) => o.label === variant) : undefined;
+  const profiled = form.variants.options.some((o) => o.quantities || o.sizes);
+  if (!opt || (!opt.quantities && !opt.sizes && !profiled)) return page;
+  return {
+    quantita: (opt.quantities ?? (profiled ? [] : form.quantities.options)).length > 0,
+    misure: (opt.sizes ?? (profiled ? [] : form.sizes.options)).length > 0,
+    variante: page.variante,
   };
 }
 
 export function validateQuote(
   v: Partial<QuoteInput>,
   fields?: (keyof QuoteInput)[],
-  opts?: { quantita?: boolean; misure?: boolean },
+  opts?: { quantita?: boolean; misure?: boolean; variante?: boolean },
 ): QuoteErrors {
   const e: QuoteErrors = {};
   const check = (k: keyof QuoteInput, ok: boolean, msg: string) => {
@@ -85,7 +94,7 @@ export function validateQuote(
   check("email", !!v.email && EMAIL.test(v.email.trim()), "Inserisci un indirizzo email completo.");
   check("consenso", v.consenso === true, "Il consenso è necessario per inviare la richiesta.");
   if (v.pagina) {
-    check("variante", !!v.variante?.trim(), "Scegli il prodotto che ti interessa.");
+    if (opts?.variante !== false) check("variante", !!v.variante?.trim(), "Scegli il prodotto che ti interessa.");
     if (opts?.quantita !== false) check("quantita", !!v.quantita?.trim(), "Scegli la quantità.");
     if (opts?.misure !== false) check("misure", !!v.misure?.trim(), "Scegli le misure.");
   }

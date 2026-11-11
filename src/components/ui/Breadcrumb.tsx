@@ -10,7 +10,9 @@ export function Breadcrumb({ items }: { items: Crumb[] }) {
       <ol className={`mono ${s.list}`}>
         {items.map((c, i) => (
           <li key={c.label}>
-            {c.href && i < items.length - 1 ? <Link href={c.href}>{c.label}</Link> : <span aria-current="page">{c.label}</span>}
+            {c.href && i < items.length - 1
+              ? <Link href={c.href}>{c.label}</Link>
+              : <span {...(i === items.length - 1 ? { "aria-current": "page" as const } : {})}>{c.label}</span>}
           </li>
         ))}
       </ol>

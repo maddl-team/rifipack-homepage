@@ -22,7 +22,7 @@ export type ProductFormConfig = {
   title: string;
   intro: string;
   variants: { label: string; options: { label: string; image: string; quantities?: string[]; sizes?: string[] }[] };
-  quantities: { label: string; options: string[] };
+  quantities: { label: string; options: string[]; free?: boolean };
   sizes: { label: string; options: string[] };
 };
 
@@ -69,8 +69,11 @@ export function Quote({ product }: { product?: ProductFormConfig }) {
     quantities: { label: product?.quantities.label ?? "", options: chosen?.quantities ?? (profiled ? [] : product?.quantities.options ?? []) },
     sizes: { label: product?.sizes.label ?? "", options: chosen?.sizes ?? (profiled ? [] : product?.sizes.options ?? []) },
   };
-  /** Il modulo originale può avere solo la quantità, solo le misure, entrambi o nessuno. */
-  const ask = product ? formAsks(product) : { quantita: true, misure: true };
+  /** Il modulo originale può avere solo la quantità, solo le misure, entrambi o nessuno. Dipende anche dal modello. */
+  const pageAsk = product ? formAsks(product) : { quantita: true, misure: true, variante: true };
+  const ask = product ? formAsks(product, v.variante) : pageAsk;
+  const showQty = pageAsk.quantita && (!v.variante || ask.quantita);
+  const showMis = pageAsk.misure && (!v.variante || ask.misure);
   const chooseVariant = (label: string) => {
     const opt = product?.variants.options.find((o) => o.label === label);
     setV((p) => ({
@@ -85,7 +88,7 @@ export function Quote({ product }: { product?: ProductFormConfig }) {
   };
 
   const stepErrors = (n: number): QuoteErrors => {
-    const fields = steps[n].filter((k) => (k === "quantita" ? ask.quantita : k === "misure" ? ask.misure : true));
+    const fields = steps[n].filter((k) => (k === "quantita" ? ask.quantita : k === "misure" ? ask.misure : k === "variante" ? ask.variante : true));
     const errs = validateQuote(v, fields, ask);
     if (steps[n].includes("logo")) {
       const m = validateLogo(logo);
@@ -281,11 +284,18 @@ export function Quote({ product }: { product?: ProductFormConfig }) {
                 <>
                   <h3 tabIndex={-1}>Scegli il prodotto</h3>
                   <div className={s.fields}>
-                    {picker(product.variants)}
-                    {(ask.quantita || ask.misure) && (
-                      <div className={ask.quantita && ask.misure ? s.two : undefined}>
-                        {ask.quantita && select("quantita", lists.quantities)}
-                        {ask.misure && select("misure", lists.sizes)}
+                    {product.variants.options.length > 0 && picker(product.variants)}
+                    {product.quantities.free && (
+                      <div className={s.fld}>
+                        <label htmlFor="q-quantita">Quantità <small>(opzionale)</small></label>
+                        <input className={s.input} placeholder="Inserisci la quantità" {...fieldProps("quantita")} value={v.quantita} onChange={(e) => set("quantita", e.target.value)} />
+                        {err("quantita")}
+                      </div>
+                    )}
+                    {(showQty || showMis) && (
+                      <div className={showQty && showMis ? s.two : undefined}>
+                        {showQty && select("quantita", lists.quantities)}
+                        {showMis && select("misure", lists.sizes)}
                       </div>
                     )}
                   </div>

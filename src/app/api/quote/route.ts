@@ -49,7 +49,7 @@ export async function POST(req: Request) {
   if (body.website) return NextResponse.json({ ok: true, delivered: true });
 
   const page = body.pagina ? getProduct(body.pagina) : undefined;
-  const errors = validateQuote(body, undefined, page ? formAsks(page.form) : { quantita: true, misure: true });
+  const errors = validateQuote(body, undefined, page ? formAsks(page.form, body.variante) : { quantita: true, misure: true });
   const logoError = validateLogo(logo);
   if (logoError) errors.logo = logoError;
   if (Object.keys(errors).length) return NextResponse.json({ ok: false, errors }, { status: 422 });
