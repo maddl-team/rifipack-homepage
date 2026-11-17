@@ -1,0 +1,78 @@
+.hero { padding: calc(var(--header-h) + var(--space-4)) 0 var(--space-6); }
+.eyebrow { color: var(--accent); margin-top: var(--space-5); }
+.h1 {
+  margin-top: var(--space-3);
+  max-width: 12ch;
+  font-weight: 900;
+  font-size: clamp(48px, 7vw, 92px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+.lead {
+  margin-top: var(--space-5);
+  max-width: 46ch;
+  color: var(--text-muted);
+  font-size: 18px;
+  line-height: 1.6;
+}
+.cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--space-6);
+}
+.cats a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  font: 500 12px/1 var(--f-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.cats a[aria-current="page"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+@media (hover: hover) {
+  .cats a:hover { border-color: var(--accent); color: var(--accent); }
+  .cats a[aria-current="page"]:hover { color: var(--on-accent); }
+}
+
+.list { padding-bottom: var(--space-8); }
+.grid { display: grid; grid-template-columns: 1fr; gap: var(--space-5); }
+@media (min-width: 700px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+.empty { color: var(--text-muted); padding: var(--space-7) 0; }
+
+.pages {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-7);
+}
+.pages > a, .pages ol a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+}
+.pages > a:last-child { justify-self: end; }
+.pages ol { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.pages ol a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+}
+.pages ol a[aria-current="page"] { background: var(--accent); color: var(--on-accent); }
+@media (hover: hover) {
+  .pages > a:hover, .pages ol a:hover { color: var(--accent); }
+  .pages ol a[aria-current="page"]:hover { color: var(--on-accent); }
+}

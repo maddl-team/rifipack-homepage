@@ -54,7 +54,8 @@ function DesktopMenu({ item, open, onOpen, onLeave, onClose }: { item: Item; ope
   }, [open, onClose]);
 
   if (!item.groups?.length) {
-    return item.href ? <NavLink item={{ label: item.label, href: item.href, external: item.external }} /> : null;
+    const current = !!item.href && (item.href === "/blog/" ? path.startsWith("/blog") : path === item.href);
+    return item.href ? <NavLink item={{ label: item.label, href: item.href, external: item.external }} current={current} /> : null;
   }
   const groups = item.groups;
 
@@ -101,7 +102,8 @@ function MobileMenu({ item, open, onToggle, onNavigate }: { item: Item; open: bo
   const path = usePathname();
   const panelId = useId();
   if (!item.groups?.length) {
-    return item.href ? <NavLink item={{ label: item.label, href: item.href, external: item.external }} onClick={onNavigate} /> : null;
+    const current = !!item.href && (item.href === "/blog/" ? path.startsWith("/blog") : path === item.href);
+    return item.href ? <NavLink item={{ label: item.label, href: item.href, external: item.external }} onClick={onNavigate} current={current} /> : null;
   }
   const groups = item.groups;
   return (

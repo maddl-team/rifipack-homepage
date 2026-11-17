@@ -1,0 +1,26 @@
+.toc {
+  display: grid;
+  gap: 14px;
+  padding: 18px 0 4px;
+  border-top: 1px solid #d5ddd9;
+}
+.toc p { color: var(--kraft-muted); }
+.toc ol { display: grid; gap: 2px; }
+.toc li[data-level="3"] { padding-left: 14px; }
+.toc a {
+  display: block;
+  padding: 7px 0 7px 12px;
+  border-left: 2px solid transparent;
+  color: var(--kraft-muted);
+  text-decoration: none;
+  font-size: 14.5px;
+  line-height: 1.35;
+}
+.toc a[data-current] {
+  border-left-color: var(--brand);
+  color: var(--kraft-ink);
+  font-weight: 700;
+}
+@media (hover: hover) {
+  .toc a:hover { color: var(--kraft-ink); }
+}

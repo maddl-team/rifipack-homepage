@@ -28,6 +28,7 @@ export const company = {
 export const nav = [
   { label: "Portfolio", href: "https://www.rifipack.it/portfolio/", external: true },
   { label: "Chi siamo", href: "https://www.rifipack.it/chi-siamo/", external: true },
+  { label: "Blog", href: "/blog/" },
   { label: "Contatti", href: "#preventivo" },
 ] as const;
 
@@ -35,7 +36,7 @@ export const links = {
   shop: "https://shop.rifipack.it/",
   catalog: "https://catalog.on-catalogue.com/view/316666780/",
   portfolio: "https://www.rifipack.it/portfolio/",
-  blog: "https://www.rifipack.it/blog/",
+  blog: "/blog/",
   // URL non letto dal sito: da verificare prima della pubblicazione.
   privacy: "https://www.rifipack.it/privacy-policy/",
 } as const;

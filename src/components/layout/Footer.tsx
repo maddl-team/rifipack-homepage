@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { company, links, social } from "@/content/site";
 import s from "./Footer.module.css";
 
@@ -32,7 +33,7 @@ export function Footer() {
             ))}
           </ul>
           <ul className={`${s.list} ${s.legal}`}>
-            <li><a href={links.blog} target="_blank" rel="noopener noreferrer">Blog</a></li>
+            <li><Link href={links.blog}>Blog</Link></li>
             <li><a href={links.privacy} target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
           </ul>
         </div>
